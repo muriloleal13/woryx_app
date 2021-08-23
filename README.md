@@ -1,16 +1,39 @@
-# new_woryx
+# Woryx App
 
-A new Flutter project.
+College project to Mobile Computing course of Computer Science Program at Universidade Federal de Santa Maria.
 
-## Getting Started
+## Getting Started 🚀
 
-This project is a starting point for a Flutter application.
+_Workout manager with Flutter._
 
-A few resources to get you started if this is your first Flutter project:
+### Requirements 📋
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+_Flutter._
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Run Application 🔧
+
+_Clone the repository._
+
+```sh
+git clone https://github.com/muriloleal13/woryx_app
+```
+
+_Install dependencies._
+
+```sh
+flutter init
+flutter pub get
+```
+
+## Run Code ⚙️
+
+```sh
+flutter run
+```
+
+## Autor ✒️
+
+* **Murilo Leal** - [mukkaL13](https://github.com/muriloleal13)
+
+
+---

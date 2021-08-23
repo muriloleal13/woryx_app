@@ -152,7 +152,6 @@ class _NewWorkoutState extends State<NewWorkout> {
                               },
                             ).toList(),
                             onChanged: (val) {
-                              print(val);
                               setState(
                                 () {
                                   _selectedRec = val;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/screens/workouts_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 import './providers/auth.dart';
 import './providers/exercises.dart';
@@ -11,7 +12,10 @@ import './screens/calendar_screen.dart';
 import './screens/exercises_screen.dart';
 import './helpers/custom_route.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await DotEnv.load(fileName: ".env");
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

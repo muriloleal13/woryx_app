@@ -119,7 +119,7 @@ class _NewWorkoutState extends State<NewWorkout> {
               ),
               Row(
                 children: <Widget>[
-                  Text('Recurrency'),
+                  Text('Recurrence'),
                   Center(
                       child: Switch(
                     value: isSwitched,
@@ -140,7 +140,7 @@ class _NewWorkoutState extends State<NewWorkout> {
                       children: [
                           DropdownButton(
                             hint: _selectedRec.isEmpty
-                                ? Text('Recurrency')
+                                ? Text('Recurrence')
                                 : Text(_selectedRec),
                             isExpanded: true,
                             items: ['Daily', 'Weekly', 'Monthly'].map(

@@ -12,6 +12,7 @@ class WorkoutPlanItem {
   final DateTime date;
   final TimeOfDay time;
   final String recurrency;
+  final String times;
 
   WorkoutPlanItem({
     @required this.id,
@@ -20,6 +21,7 @@ class WorkoutPlanItem {
     @required this.date,
     @required this.time,
     @required this.recurrency,
+    @required this.times,
   });
 }
 
@@ -54,9 +56,10 @@ class WorkoutPlan with ChangeNotifier {
           id: prodId,
           title: prodData['title'],
           description: prodData['description'],
-          date: DateTime.parse(prodData['date']),
-          time: TimeOfDay.fromDateTime(DateTime.parse(prodData['date'])),
+          date: DateTime.parse(prodData['dateTime']),
+          time: TimeOfDay.fromDateTime(DateTime.parse(prodData['dateTime'])),
           recurrency: prodData['recurrency'],
+          times: prodData['times'],
         ));
       });
       _items = loadedProducts;
@@ -129,12 +132,14 @@ class WorkoutPlan with ChangeNotifier {
   Future<void> removeItem(String id) async {
     final url =
         'https://woryx-flutter-default-rtdb.firebaseio.com/workout-plan/$id.json?auth=$authToken';
+    print('${url} ${id}');
     final existingExerciseIndex = _items.indexWhere((ex) => ex.id == id);
     var existingExercise = _items[existingExerciseIndex];
     _items.removeAt(existingExerciseIndex);
     notifyListeners();
     final response = await http.delete(url);
     if (response.statusCode >= 400) {
+      print(response.statusCode);
       _items.insert(existingExerciseIndex, existingExercise);
       notifyListeners();
       throw HttpException('Could not delete product.');

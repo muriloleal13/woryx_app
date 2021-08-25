@@ -14,9 +14,19 @@ class _NewWorkoutState extends State<NewWorkout> {
   bool isSwitched = false;
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
+  final _timesController = TextEditingController();
   String _selectedRec = '';
   DateTime _selectedDate;
   TimeOfDay _selectedTime;
+  bool _isChecked = false;
+  List<bool> _currDays = [];
+  List<String> _weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  @override
+  void initState() {
+    super.initState();
+    _currDays = List<bool>.filled(_weekDays.length, false);
+  }
 
   Future<void> _submitData() async {
     if (_descController.text.isEmpty) {
@@ -24,6 +34,7 @@ class _NewWorkoutState extends State<NewWorkout> {
     }
     final enteredTitle = _titleController.text;
     final enteredDesc = _descController.text;
+    final enteredTimes = _timesController.text;
 
     if (enteredTitle.isEmpty || _selectedDate == null) {
       return;
@@ -36,6 +47,7 @@ class _NewWorkoutState extends State<NewWorkout> {
       date: _selectedDate,
       time: _selectedTime,
       recurrency: _selectedRec,
+      times: enteredTimes,
     );
 
     try {
@@ -113,7 +125,6 @@ class _NewWorkoutState extends State<NewWorkout> {
               TextField(
                 decoration: InputDecoration(labelText: 'Description'),
                 controller: _descController,
-                keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
                 // onChanged: (val) => amountInput = val,
               ),
@@ -159,11 +170,38 @@ class _NewWorkoutState extends State<NewWorkout> {
                               );
                             },
                           ),
-                          TextFormField(
-                            decoration: InputDecoration(labelText: 'Times'),
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.number,
-                          ),
+                          _selectedRec == 'Daily'
+                              ? TextField(
+                                  decoration:
+                                      InputDecoration(labelText: 'Times'),
+                                  controller: _timesController,
+                                  onSubmitted: (_) => _submitData(),
+                                  keyboardType: TextInputType.number,
+                                )
+                              : (_selectedRec == 'Weekly'
+                                  ? Expanded(
+                                      child: Container(
+                                        height: 500,
+                                        child: Column(children: [
+                                          ListView.builder(
+                                              itemCount: _weekDays.length,
+                                              itemBuilder: (context, index) {
+                                                return CheckboxListTile(
+                                                  title: Text(_weekDays[index]),
+                                                  value: _currDays[index],
+                                                  onChanged: (val) {
+                                                    setState(
+                                                      () {
+                                                        _currDays[index] = val;
+                                                      },
+                                                    );
+                                                  },
+                                                );
+                                              })
+                                        ]),
+                                      ),
+                                    )
+                                  : SizedBox(height: 0)),
                         ])
                   : SizedBox(height: 0),
               Container(

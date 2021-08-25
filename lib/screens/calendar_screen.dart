@@ -118,16 +118,18 @@ void _startAddNewTransaction(BuildContext ctx) {
 List<Appointment> getAppointments(List<WorkoutPlanItem> items) {
   List<Appointment> meetings = <Appointment>[];
   items.forEach((value) {
+    print('${value.date} ${value.time} ${value.recurrency} ${value.times}');
     final DateTime startTime = DateTime(value.date.year, value.date.month,
-        value.date.day, value.date.hour, value.date.minute);
+        value.date.day, value.time.hour, value.time.minute);
     final DateTime endTime = startTime.add(const Duration(hours: 1));
     meetings.add(Appointment(
       startTime: startTime,
       endTime: endTime,
       subject: value.title,
       color: Colors.blue,
-      recurrenceRule:
-          value.recurrency.isNotEmpty ? 'FREQ=${value.recurrency};COUNT=5' : '',
+      recurrenceRule: value.recurrency.isNotEmpty
+          ? 'FREQ=${value.recurrency.toUpperCase()};${value.times != null ? 'INTERVAL=1;COUNT=${value.times}' : ''}'
+          : '',
     ));
   });
   return meetings;

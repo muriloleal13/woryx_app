@@ -61,7 +61,7 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        'Woryx App',
+                        'WORYX APP',
                         style: TextStyle(
                           color: Theme.of(context).accentTextTheme.title.color,
                           fontSize: 50,

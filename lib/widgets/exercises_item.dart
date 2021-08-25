@@ -20,14 +20,14 @@ class ListExercises extends StatelessWidget {
         width: 100,
         child: Row(
           children: <Widget>[
-            // IconButton(
-            //   icon: Icon(Icons.edit),
-            //   onPressed: () {
-            //     Navigator.of(context)
-            //         .pushNamed(WorkoutPlan.routeName, arguments: id);
-            //   },
-            //   color: Theme.of(context).primaryColor,
-            // ),
+            IconButton(
+              icon: Icon(Icons.favorite_border),
+              onPressed: () {
+                // Navigator.of(context)
+                //     .pushNamed(WorkoutPlan.routeName, arguments: id);
+              },
+              color: Theme.of(context).primaryColor,
+            ),
             // IconButton(
             //   icon: Icon(Icons.delete),
             //   onPressed: () async {

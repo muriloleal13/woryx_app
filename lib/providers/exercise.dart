@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class Exercise with ChangeNotifier {
@@ -27,8 +28,7 @@ class Exercise with ChangeNotifier {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
-    final url =
-        'https://woryx-flutter-default-rtdb.firebaseio.com/userFavorites/$userId/$id.json?auth=$token';
+    final url = '${env['LINK_DB']}/userFavorites/$userId/$id.json?auth=$token';
     try {
       final response = await http.put(
         url,

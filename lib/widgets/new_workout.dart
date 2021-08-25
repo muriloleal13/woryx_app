@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_complete_guide/providers/exercises.dart';
 import 'package:flutter_complete_guide/providers/workoutplan.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -14,13 +14,14 @@ class NewWorkout extends StatefulWidget {
 
 class _NewWorkoutState extends State<NewWorkout> {
   bool isSwitched = false;
-  final _titleController = TextEditingController();
   final _descController = TextEditingController();
   final _timesController = TextEditingController();
   String _selectedTitle = '';
   String _selectedRec = '';
   DateTime _selectedDate;
   TimeOfDay _selectedTime;
+  Color pickerColor = Color(0xff443a49);
+  Color _selectedColor = Color(0xff443a49);
   List<bool> _currDays = [];
   List<String> _weekDays = ['Mon', 'Tue', 'Wed'];
 
@@ -34,22 +35,22 @@ class _NewWorkoutState extends State<NewWorkout> {
     if (_descController.text.isEmpty) {
       return;
     }
-    final enteredTitle = _titleController.text;
     final enteredDesc = _descController.text;
     final enteredTimes = _timesController.text;
 
-    if (enteredTitle.isEmpty || _selectedDate == null) {
+    if (_selectedTitle.isEmpty || _selectedDate == null) {
       return;
     }
 
     final newTx = WorkoutPlanItem(
       id: DateTime.now().toString(),
-      title: enteredTitle,
+      title: _selectedTitle,
       description: enteredDesc,
       date: _selectedDate,
       time: _selectedTime,
       recurrency: _selectedRec,
       times: enteredTimes.isNotEmpty ? enteredTimes : '1',
+      color: _selectedColor,
     );
 
     try {
@@ -95,7 +96,8 @@ class _NewWorkoutState extends State<NewWorkout> {
   void _presentTimePicker() async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: 7, minute: 15),
+      initialTime:
+          TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
       initialEntryMode: TimePickerEntryMode.input,
     );
     if (newTime != null) {
@@ -103,7 +105,36 @@ class _NewWorkoutState extends State<NewWorkout> {
         _selectedTime = newTime;
       });
     }
-    print('...');
+  }
+
+  void _presentColorPicker() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Pick a color!'),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: pickerColor,
+            onColorChanged: (val) {
+              setState(() {
+                _selectedColor = val;
+              });
+            },
+            showLabel: true,
+            pickerAreaHeightPercent: 0.8,
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Set Color'),
+            onPressed: () {
+              setState(() => _selectedColor = pickerColor);
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -264,6 +295,30 @@ class _NewWorkoutState extends State<NewWorkout> {
                   ],
                 ),
               ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _selectedColor == null
+                            ? 'No Color Chosen!'
+                            : 'Picked Color: ${_selectedColor}',
+                      ),
+                    ),
+                    FlatButton(
+                      textColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        'Choose Color',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: _presentColorPicker,
+                    ),
+                  ],
+                ),
+              ),
               RaisedButton(
                 child: Text('Add Workout'),
                 color: Theme.of(context).primaryColor,
@@ -274,32 +329,6 @@ class _NewWorkoutState extends State<NewWorkout> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class AutocompleteBasicExample extends StatelessWidget {
-  final Function _funcTxt;
-  final Function _getSuggestion;
-  final List<String> _kOptions;
-
-  AutocompleteBasicExample(this._funcTxt, this._getSuggestion, this._kOptions);
-
-  @override
-  Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          return const Iterable<String>.empty();
-        }
-        return _kOptions.where((String option) {
-          print(textEditingValue.text.toLowerCase());
-          return option.contains(textEditingValue.text.toLowerCase());
-        });
-      },
-      onSelected: (String selection) {
-        _funcTxt(selection);
-      },
     );
   }
 }

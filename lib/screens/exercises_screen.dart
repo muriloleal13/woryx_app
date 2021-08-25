@@ -3,10 +3,21 @@ import 'package:provider/provider.dart';
 
 import '../providers/exercises.dart';
 import '../widgets/exercises_item.dart';
-import '../widgets/app_drawer.dart';
 
-class ListExercisesScreen extends StatelessWidget {
-  static const routeName = '/user-products';
+enum FilterOptions {
+  Favorites,
+  All,
+}
+
+class ListExercisesScreen extends StatefulWidget {
+  static const routeName = '/exercises-list';
+
+  @override
+  _ListExercisesScreenState createState() => _ListExercisesScreenState();
+}
+
+class _ListExercisesScreenState extends State<ListExercisesScreen> {
+  var _showOnlyFavorites = false;
 
   Future<void> _refreshExercises(BuildContext context) async {
     await Provider.of<Exercises>(context, listen: false).fetchAllExercises();
@@ -18,14 +29,32 @@ class ListExercisesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Exercises'),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.add),
-        //     onPressed: () {
-        //       Navigator.of(context).pushNamed(WorkoutPlanScreen.routeName);
-        //     },
-        //   ),
-        // ],
+        actions: <Widget>[
+          PopupMenuButton(
+            onSelected: (FilterOptions selectedValue) {
+              setState(() {
+                if (selectedValue == FilterOptions.Favorites) {
+                  _showOnlyFavorites = true;
+                } else {
+                  _showOnlyFavorites = false;
+                }
+              });
+            },
+            icon: Icon(
+              Icons.more_vert,
+            ),
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                child: Text('Only Favorites'),
+                value: FilterOptions.Favorites,
+              ),
+              PopupMenuItem(
+                child: Text('Show All'),
+                value: FilterOptions.All,
+              ),
+            ],
+          ),
+        ],
       ),
       // drawer: AppDrawer(),
       body: RefreshIndicator(

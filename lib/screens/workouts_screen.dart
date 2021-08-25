@@ -3,8 +3,6 @@ import 'package:flutter_complete_guide/providers/workoutplan.dart';
 import 'package:flutter_complete_guide/widgets/workout_item.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/app_drawer.dart';
-
 class WorkoutsScreen extends StatelessWidget {
   static const routeName = '/list-workouts';
 

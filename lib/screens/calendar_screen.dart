@@ -7,18 +7,12 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/workoutplan.dart';
 
-enum FilterOptions {
-  Favorites,
-  All,
-}
-
 class CalendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  var _showOnlyFavorites = false;
   var _isInit = true;
   var _isLoadingWo = false;
   var _isLoadingEx = false;
@@ -65,30 +59,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         appBar: AppBar(
           title: Text('Woryx App'),
           actions: <Widget>[
-            PopupMenuButton(
-              onSelected: (FilterOptions selectedValue) {
-                setState(() {
-                  if (selectedValue == FilterOptions.Favorites) {
-                    _showOnlyFavorites = true;
-                  } else {
-                    _showOnlyFavorites = false;
-                  }
-                });
-              },
-              icon: Icon(
-                Icons.more_vert,
-              ),
-              itemBuilder: (_) => [
-                PopupMenuItem(
-                  child: Text('Only Favorites'),
-                  value: FilterOptions.Favorites,
-                ),
-                PopupMenuItem(
-                  child: Text('Show All'),
-                  value: FilterOptions.All,
-                ),
-              ],
-            ),
             IconButton(
               icon: Icon(Icons.add),
               onPressed: () => _startAddNewTransaction(context),
@@ -106,8 +76,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 child: CircularProgressIndicator(),
               )
             : SfCalendar(
-                view: CalendarView.week,
-                firstDayOfWeek: 6,
+                view: CalendarView.month,
+                monthViewSettings: MonthViewSettings(showAgenda: true),
                 dataSource:
                     MeetingDataSource(getAppointments(productsData.items)),
               ));
@@ -130,6 +100,7 @@ void _startAddNewTransaction(BuildContext ctx) {
 List<Appointment> getAppointments(List<WorkoutPlanItem> items) {
   List<Appointment> meetings = <Appointment>[];
   items.forEach((value) {
+    print(value.color);
     final DateTime startTime = DateTime(value.date.year, value.date.month,
         value.date.day, value.time.hour, value.time.minute);
     final DateTime endTime = startTime.add(const Duration(hours: 1));
@@ -137,7 +108,7 @@ List<Appointment> getAppointments(List<WorkoutPlanItem> items) {
       startTime: startTime,
       endTime: endTime,
       subject: value.title,
-      color: Colors.blue,
+      color: value.color != null ? value.color : Colors.blue,
       recurrenceRule: value.recurrency.isNotEmpty
           ? 'FREQ=${value.recurrency.toUpperCase()};${value.times != null ? 'INTERVAL=1;COUNT=${value.times}' : ''}'
           : '',

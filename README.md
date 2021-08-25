@@ -10,6 +10,8 @@ _Workout manager with Flutter._
 
 _Flutter._
 
+_Realtime Database on Firebase._
+
 ### Run Application 🔧
 
 _Clone the repository._
@@ -24,6 +26,10 @@ _Install dependencies._
 flutter init
 flutter pub get
 ```
+
+_create .env File with:
+  SECRET_API_KEY=$API_KEY
+  LINK_DB=$DATABASE_LINK._
 
 ## Run Code ⚙️
 

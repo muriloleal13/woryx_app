@@ -62,9 +62,7 @@ class WorkoutPlan with ChangeNotifier {
           time: TimeOfDay.fromDateTime(DateTime.parse(prodData['dateTime'])),
           recurrency: prodData['recurrency'],
           times: prodData['times'],
-          color: prodData['color'] != null
-              ? Color(int.parse(prodData['color']))
-              : null,
+          color: prodData['color'] != null ? Color(prodData['color']) : null,
         ));
       });
       _items = loadedProducts;
@@ -91,7 +89,7 @@ class WorkoutPlan with ChangeNotifier {
               .toIso8601String(),
           'recurrency': newWorkout.recurrency,
           'times': newWorkout.times,
-          'color': newWorkout.color.toString(),
+          'color': newWorkout.color.value,
         }),
       );
       final newExercise = WorkoutPlanItem(
@@ -129,7 +127,7 @@ class WorkoutPlan with ChangeNotifier {
                 .toIso8601String(),
             'recurrency': newWorkout.recurrency,
             'times': newWorkout.times,
-            'color': newWorkout.color.toString(),
+            'color': newWorkout.color,
           }));
       _items[prodIndex] = newWorkout;
       notifyListeners();

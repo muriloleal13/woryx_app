@@ -80,8 +80,8 @@ class _NewWorkoutState extends State<NewWorkout> {
     showDatePicker(
       context: context,
       initialDate: today,
-      firstDate: today.subtract(const Duration(days: 7)),
-      lastDate: today.add(const Duration(days: 7)),
+      firstDate: today.subtract(const Duration(days: 30)),
+      lastDate: today.add(const Duration(days: 30)),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -117,7 +117,7 @@ class _NewWorkoutState extends State<NewWorkout> {
             pickerColor: pickerColor,
             onColorChanged: (val) {
               setState(() {
-                _selectedColor = val;
+                pickerColor = val;
               });
             },
             showLabel: true,
@@ -128,7 +128,9 @@ class _NewWorkoutState extends State<NewWorkout> {
           FlatButton(
             child: const Text('Set Color'),
             onPressed: () {
-              setState(() => _selectedColor = pickerColor);
+              setState(() {
+                _selectedColor = pickerColor;
+              });
               Navigator.of(context).pop();
             },
           ),

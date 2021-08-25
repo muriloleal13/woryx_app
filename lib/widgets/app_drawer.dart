@@ -17,8 +17,8 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.line_style_rounded),
-            title: Text('Dashboard'),
+            leading: Icon(Icons.analytics_outlined),
+            title: Text('Dashboard - COMING SOON!'),
             onTap: () {
               // Navigator.of(context)
               // .pushReplacementNamed(OrdersScreen.routeName);
@@ -34,7 +34,7 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.settings_suggest_rounded),
+            leading: Icon(Icons.article_outlined),
             title: Text('Exercises'),
             onTap: () {
               Navigator.of(context)
@@ -43,8 +43,8 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.settings_suggest_rounded),
-            title: Text('Workouts'),
+            leading: Icon(Icons.account_tree_outlined),
+            title: Text('Workout Plans'),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(WorkoutsScreen.routeName);

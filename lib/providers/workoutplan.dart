@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/http_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class WorkoutPlanItem {
@@ -42,8 +43,7 @@ class WorkoutPlan with ChangeNotifier {
   }
 
   Future<void> fetchAndSetWorkouts() async {
-    var url =
-        'https://woryx-app-33859-default-rtdb.firebaseio.com/workout-plan.json?auth=$authToken';
+    var url = '${env['LINK_DB']}/workout-plan.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -70,8 +70,7 @@ class WorkoutPlan with ChangeNotifier {
   }
 
   Future<void> addItem(WorkoutPlanItem newWorkout) async {
-    final url =
-        'https://woryx-app-33859-default-rtdb.firebaseio.com/workout-plan.json?auth=$authToken';
+    final url = '${env['LINK_DB']}/workout-plan.json?auth=$authToken';
     try {
       final response = await http.post(
         url,
@@ -86,6 +85,7 @@ class WorkoutPlan with ChangeNotifier {
                   newWorkout.time.minute)
               .toIso8601String(),
           'recurrency': newWorkout.recurrency,
+          'times': newWorkout.times,
         }),
       );
       final newExercise = WorkoutPlanItem(
@@ -95,6 +95,7 @@ class WorkoutPlan with ChangeNotifier {
         date: newWorkout.date,
         time: newWorkout.time,
         recurrency: newWorkout.recurrency,
+        times: newWorkout.times,
       );
       _items.add(newExercise);
       notifyListeners();
@@ -107,8 +108,7 @@ class WorkoutPlan with ChangeNotifier {
   Future<void> updateItem(String id, WorkoutPlanItem newWorkout) async {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
-      final url =
-          'https://woryx-app-33859-default-rtdb.firebaseio.com/workout-plan/$id.json?auth=$authToken';
+      final url = '${env['LINK_DB']}/workout-plan/$id.json?auth=$authToken';
       await http.patch(url,
           body: json.encode({
             'title': newWorkout.title,
@@ -121,6 +121,7 @@ class WorkoutPlan with ChangeNotifier {
                     newWorkout.time.minute)
                 .toIso8601String(),
             'recurrency': newWorkout.recurrency,
+            'times': newWorkout.times,
           }));
       _items[prodIndex] = newWorkout;
       notifyListeners();
@@ -130,9 +131,7 @@ class WorkoutPlan with ChangeNotifier {
   }
 
   Future<void> removeItem(String id) async {
-    final url =
-        'https://woryx-flutter-default-rtdb.firebaseio.com/workout-plan/$id.json?auth=$authToken';
-    print('${url} ${id}');
+    final url = '${env['LINK_DB']}/workout-plan/$id.json?auth=$authToken';
     final existingExerciseIndex = _items.indexWhere((ex) => ex.id == id);
     var existingExercise = _items[existingExerciseIndex];
     _items.removeAt(existingExerciseIndex);

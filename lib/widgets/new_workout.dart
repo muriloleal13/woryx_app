@@ -18,7 +18,6 @@ class _NewWorkoutState extends State<NewWorkout> {
   String _selectedRec = '';
   DateTime _selectedDate;
   TimeOfDay _selectedTime;
-  bool _isChecked = false;
   List<bool> _currDays = [];
   List<String> _weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 

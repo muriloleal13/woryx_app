@@ -118,7 +118,6 @@ void _startAddNewTransaction(BuildContext ctx) {
 List<Appointment> getAppointments(List<WorkoutPlanItem> items) {
   List<Appointment> meetings = <Appointment>[];
   items.forEach((value) {
-    print('${value.date} ${value.time} ${value.recurrency} ${value.times}');
     final DateTime startTime = DateTime(value.date.year, value.date.month,
         value.date.day, value.time.hour, value.time.minute);
     final DateTime endTime = startTime.add(const Duration(hours: 1));

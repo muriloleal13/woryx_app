@@ -27,9 +27,9 @@ flutter init
 flutter pub get
 ```
 
-_create .env File with:
+_create .env File with:_
   SECRET_API_KEY=$API_KEY
-  LINK_DB=$DATABASE_LINK._
+  LINK_DB=$DATABASE_LINK
 
 ## Run Code ⚙️
 

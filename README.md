@@ -30,8 +30,8 @@ flutter pub get
 _create .env File with:_
 
 ```sh
-  SECRET_API_KEY=$API_KEY
-  LINK_DB=$DATABASE_LINK
+SECRET_API_KEY=$API_KEY
+LINK_DB=$DATABASE_LINK
 ```
 
 ## Run Code ⚙️

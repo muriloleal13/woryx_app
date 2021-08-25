@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/exercises.dart';
 import 'package:flutter_complete_guide/providers/workoutplan.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -15,11 +17,12 @@ class _NewWorkoutState extends State<NewWorkout> {
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
   final _timesController = TextEditingController();
+  String _selectedTitle = '';
   String _selectedRec = '';
   DateTime _selectedDate;
   TimeOfDay _selectedTime;
   List<bool> _currDays = [];
-  List<String> _weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  List<String> _weekDays = ['Mon', 'Tue', 'Wed'];
 
   @override
   void initState() {
@@ -46,7 +49,7 @@ class _NewWorkoutState extends State<NewWorkout> {
       date: _selectedDate,
       time: _selectedTime,
       recurrency: _selectedRec,
-      times: enteredTimes,
+      times: enteredTimes.isNotEmpty ? enteredTimes : '1',
     );
 
     try {
@@ -105,6 +108,7 @@ class _NewWorkoutState extends State<NewWorkout> {
 
   @override
   Widget build(BuildContext context) {
+    final productsData = Provider.of<Exercises>(context);
     return SingleChildScrollView(
       child: Card(
         elevation: 5,
@@ -113,13 +117,22 @@ class _NewWorkoutState extends State<NewWorkout> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-                // onChanged: (val) {
-                //   titleInput = val;
-                // },
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text == '') {
+                    return const Iterable<String>.empty();
+                  }
+                  return productsData.itemName.where((String option) {
+                    return option
+                        .toLowerCase()
+                        .contains(textEditingValue.text.toLowerCase().trim());
+                  });
+                },
+                onSelected: (String selection) {
+                  setState(() {
+                    _selectedTitle = selection;
+                  });
+                },
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Description'),
@@ -261,6 +274,32 @@ class _NewWorkoutState extends State<NewWorkout> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AutocompleteBasicExample extends StatelessWidget {
+  final Function _funcTxt;
+  final Function _getSuggestion;
+  final List<String> _kOptions;
+
+  AutocompleteBasicExample(this._funcTxt, this._getSuggestion, this._kOptions);
+
+  @override
+  Widget build(BuildContext context) {
+    return Autocomplete<String>(
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text == '') {
+          return const Iterable<String>.empty();
+        }
+        return _kOptions.where((String option) {
+          print(textEditingValue.text.toLowerCase());
+          return option.contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: (String selection) {
+        _funcTxt(selection);
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/exercises.dart';
 import 'package:flutter_complete_guide/widgets/new_workout.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -19,7 +20,8 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   var _showOnlyFavorites = false;
   var _isInit = true;
-  var _isLoading = false;
+  var _isLoadingWo = false;
+  var _isLoadingEx = false;
 
   @override
   void initState() {
@@ -34,13 +36,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       setState(() {
-        _isLoading = true;
+        _isLoadingWo = true;
+        _isLoadingEx = true;
       });
-      Provider.of<WorkoutPlan>(context).fetchAndSetWorkouts().then((_) {
-        setState(() {
-          _isLoading = false;
+      if (_isLoadingEx) {
+        Provider.of<Exercises>(context).fetchAllExercises().then((_) {
+          setState(() {
+            _isLoadingEx = false;
+          });
         });
-      });
+      }
+      if (_isLoadingWo) {
+        Provider.of<WorkoutPlan>(context).fetchAndSetWorkouts().then((_) {
+          setState(() {
+            _isLoadingWo = false;
+          });
+        });
+      }
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -89,7 +101,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           onPressed: () => _startAddNewTransaction(context),
         ),
         drawer: AppDrawer(),
-        body: _isLoading
+        body: _isLoadingWo || _isLoadingEx
             ? Center(
                 child: CircularProgressIndicator(),
               )

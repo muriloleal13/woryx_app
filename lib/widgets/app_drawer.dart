@@ -24,21 +24,20 @@ class AppDrawer extends StatelessWidget {
               // .pushReplacementNamed(OrdersScreen.routeName);
             },
           ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.calendar_today_rounded),
-            title: Text('Calendar'),
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/');
-            },
-          ),
+          // Divider(),
+          // ListTile(
+          //   leading: Icon(Icons.calendar_today_rounded),
+          //   title: Text('Calendar'),
+          //   onTap: () {
+          //     Navigator.of(context).pushReplacementNamed('/');
+          //   },
+          // ),
           Divider(),
           ListTile(
             leading: Icon(Icons.article_outlined),
             title: Text('Exercises'),
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(ListExercisesScreen.routeName);
+              Navigator.of(context).pushNamed(ListExercisesScreen.routeName);
             },
           ),
           Divider(),
@@ -46,8 +45,7 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.account_tree_outlined),
             title: Text('Workout Plans'),
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(WorkoutsScreen.routeName);
+              Navigator.of(context).pushNamed(WorkoutsScreen.routeName);
             },
           ),
           Divider(),

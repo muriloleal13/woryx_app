@@ -12,9 +12,10 @@ class ListExercises extends StatelessWidget {
     final scaffold = Scaffold.of(context);
     return ListTile(
       title: Text(title),
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl),
-      ),
+      leading: Icon(Icons.fitness_center),
+      // CircleAvatar(
+      //   backgroundImage: NetworkImage(imageUrl),
+      // ),
       trailing: Container(
         width: 100,
         child: Row(

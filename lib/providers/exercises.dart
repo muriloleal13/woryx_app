@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/http_exception.dart';
 import 'exercise.dart';
 
 class Exercises with ChangeNotifier {
@@ -11,6 +10,17 @@ class Exercises with ChangeNotifier {
 
   List<Exercise> get items {
     return [..._items];
+  }
+
+  List<String> get itemName {
+    return _items.map((item) => item.title).toList();
+  }
+
+  List<String> findName(String pattern) {
+    return _items
+        .where((item) => item.title.contains(pattern))
+        .toList()
+        .map((item) => item.title);
   }
 
   List<Exercise> get favoriteItems {
@@ -21,8 +31,8 @@ class Exercises with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchAllExercises([String filter = '']) async {
-    var url = 'https://wger.de/api/v2/exerciseinfo/?limit=416';
+  Future<void> fetchAllExercises() async {
+    var url = 'https://wger.de/api/v2/exercise/?limit=416';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

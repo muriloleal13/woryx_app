@@ -28,7 +28,7 @@ class WorkoutsScreen extends StatelessWidget {
         //   ),
         // ],
       ),
-      drawer: AppDrawer(),
+      // drawer: AppDrawer(),
       body: FutureBuilder(
         future: _refreshWorkouts(context),
         builder: (ctx, snapshot) =>

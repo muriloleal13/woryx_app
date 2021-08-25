@@ -15,7 +15,6 @@ class _ListExercisesState extends State<ListExercises> {
   bool _isFav = false;
   @override
   Widget build(BuildContext context) {
-    final scaffold = Scaffold.of(context);
     return ListTile(
       title: Text(widget.title),
       leading: Icon(Icons.fitness_center),
@@ -38,25 +37,6 @@ class _ListExercisesState extends State<ListExercises> {
               },
               color: Theme.of(context).primaryColor,
             ),
-            // IconButton(
-            //   icon: Icon(Icons.delete),
-            //   onPressed: () async {
-            //     try {
-            //       await Provider.of<Exercises>(context, listen: false)
-            //           .deleteExercise(id);
-            //     } catch (error) {
-            //       scaffold.showSnackBar(
-            //         SnackBar(
-            //           content: Text(
-            //             'Deleting failed!',
-            //             textAlign: TextAlign.center,
-            //           ),
-            //         ),
-            //       );
-            //     }
-            //   },
-            //   color: Theme.of(context).errorColor,
-            // ),
           ],
         ),
       ),

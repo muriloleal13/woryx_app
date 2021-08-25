@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NewWorkout extends StatefulWidget {
-  static const routeName = '/new-workout';
+  static const routeName = '/workout-list';
 
   @override
   _NewWorkoutState createState() => _NewWorkoutState();

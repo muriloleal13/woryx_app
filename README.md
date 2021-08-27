@@ -23,7 +23,6 @@ git clone https://github.com/muriloleal13/woryx_app
 _Install dependencies._
 
 ```sh
-flutter init
 flutter pub get
 ```
 
